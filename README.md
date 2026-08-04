@@ -14,7 +14,7 @@ Lauffähig durch einfaches Hochladen auf klassischem Webspace.
 ├── impressum.html         Platzhalter (Inhalt separater Task)
 ├── datenschutz.html       Platzhalter (Inhalt separater Task)
 ├── css/styles.css         Design Tokens, Komponenten, Sektionen, Responsive
-├── js/script.js           CONFIG-Objekt, Reveal/Scrollspy/Count-Up/Parallax
+├── js/script.js           CONFIG-Objekt, Reveal/Scrollspy/Parallax
 ├── js/lenis.min.js        Smooth-Scroll-Library (self-hosted, MIT-Lizenz)
 ├── fonts/                 Self-hosted Variable Fonts (.woff2)
 └── assets/img/            Redaktionelle Stock-Fotografie (siehe unten)

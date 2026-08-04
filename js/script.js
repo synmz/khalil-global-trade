@@ -1,7 +1,7 @@
 /**
  * Khalil Global Trade — Site Script
  * Vanilla JS, no build step. Sections: CONFIG, Smooth Scroll, Reveal,
- * Scrollspy, Header, Count-Up, Parallax, Hero Words, Mobile Nav.
+ * Scrollspy, Header, Parallax, Hero Words, Mobile Nav.
  */
 (function () {
   'use strict';
@@ -31,7 +31,6 @@
     initMobileNav();
     initRevealObserver();
     initScrollspy();
-    initCountUp();
     initParallax();
     initHeroWordDelays();
     initYear();
@@ -210,53 +209,6 @@
     }, { threshold: 0, rootMargin: '-40% 0px -55% 0px' });
 
     sections.forEach(function (s) { observer.observe(s); });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Count-Up for stats                                                   */
-  /* ------------------------------------------------------------------ */
-
-  function initCountUp() {
-    var items = document.querySelectorAll('[data-count-to]');
-    if (!items.length) return;
-
-    function animateCount(el) {
-      var target = parseFloat(el.getAttribute('data-count-to'));
-      var duration = CONFIG.reducedMotion ? 1 : 1800;
-      var start = null;
-      var numEl = el.querySelector('.num') || el;
-      var startVal = 0;
-
-      function step(ts) {
-        if (start === null) start = ts;
-        var progress = Math.min((ts - start) / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var current = Math.floor(startVal + (target - startVal) * eased);
-        numEl.textContent = current.toLocaleString('de-DE');
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          numEl.textContent = target.toLocaleString('de-DE');
-        }
-      }
-      requestAnimationFrame(step);
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      items.forEach(animateCount);
-      return;
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          animateCount(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    items.forEach(function (el) { observer.observe(el); });
   }
 
   /* ------------------------------------------------------------------ */
