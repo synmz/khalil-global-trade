@@ -305,6 +305,12 @@ section {
   padding-block: var(--space-2xl);
 }
 
+/* Für Seiten ohne Hero (Impressum, Datenschutz): Ausgleich für den
+   fixierten Header, da dieser keinen Platz mehr im Dokumentfluss belegt. */
+.page-main {
+  padding-top: calc(var(--header-h) + var(--space-2xl));
+}
+
 .section--dark {
   background: var(--c-navy-950);
   color: var(--c-ink-on-dark);
@@ -398,8 +404,10 @@ section {
    ========================================================================== */
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   height: var(--header-h);
   display: flex;
