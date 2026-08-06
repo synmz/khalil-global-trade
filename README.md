@@ -13,12 +13,68 @@ Lauffähig durch einfaches Hochladen auf klassischem Webspace.
 ├── index.html            One-Pager mit allen Sektionen
 ├── impressum.html         Platzhalter (Inhalt separater Task)
 ├── datenschutz.html       Platzhalter (Inhalt separater Task)
-├── css/styles.css         Design Tokens, Komponenten, Sektionen, Responsive
-├── js/script.js           CONFIG-Objekt, Reveal/Scrollspy/Parallax
+├── css/styles.css         Design Tokens, Komponenten, Sektionen, Responsive, RTL
+├── js/script.js           CONFIG-Objekt, Reveal/Scrollspy/Parallax, i18n-Engine
+├── js/i18n.js             Übersetzungswörterbücher DE/EN/TR/AR
 ├── js/lenis.min.js        Smooth-Scroll-Library (self-hosted, MIT-Lizenz)
-├── fonts/                 Self-hosted Variable Fonts (.woff2)
+├── fonts/                 Self-hosted Variable Fonts (.woff2, Latin + Latin-Ext)
 └── assets/img/            Redaktionelle Stock-Fotografie (siehe unten)
 ```
+
+## Mehrsprachigkeit (DE / EN / TR / AR)
+
+Die Seite bietet einen Sprachumschalter oben rechts im Header (Desktop) bzw.
+oben im aufklappbaren Menü (Mobile). Der Wechsel erfolgt direkt auf der
+Seite ohne Neuladen — es gibt bewusst **keine** separaten URLs pro Sprache
+(z. B. `/en/`), da dies bei einem reinen HTML/CSS/JS-Setup ohne Build-Schritt
+den Pflegeaufwand vervierfacht hätte (vier komplette HTML-Dateien statt
+einer). Die gewählte Sprache wird in `localStorage` gespeichert und beim
+nächsten Besuch automatisch wiederhergestellt.
+
+**Wichtig — bitte vor Launch lesen:** Die Übersetzungen in `js/i18n.js`
+wurden KI-gestützt erstellt. Sie sind fachlich und grammatikalisch sorgfältig
+formuliert, ersetzen aber keine Prüfung durch Muttersprachler — das gilt
+besonders für Türkisch und Arabisch. Bitte vor dem Live-Gang von
+entsprechenden Sprechern gegenlesen lassen, insbesondere Fachbegriffe wie
+Produktbezeichnungen und Branchennamen.
+
+### Funktionsweise
+
+- Jedes übersetzbare Element in `index.html` trägt ein `data-i18n="..."`-
+  Attribut (Punktnotation, z. B. `data-i18n="hero.subtitle"`). Für
+  Platzhaltertexte in Formularfeldern: `data-i18n-placeholder`, für Alt-Texte
+  von Bildern: `data-i18n-alt`, für `aria-label`: `data-i18n-aria`.
+- `js/i18n.js` enthält für jede Sprache ein Objekt mit denselben Schlüsseln.
+- `js/script.js` (Funktion `applyLanguage()`) liest beim Sprachwechsel das
+  passende Wörterbuch aus und ersetzt `textContent`/`placeholder`/`alt`/
+  `aria-label` aller markierten Elemente. Zusätzlich werden `<html lang>`,
+  `<html dir>`, `<title>` und die Meta-Description aktualisiert.
+
+### Neuen Text übersetzbar machen
+
+1. In `index.html` das Element mit `data-i18n="bereich.name"` markieren
+   (neuer, eindeutiger Schlüssel).
+2. In `js/i18n.js` denselben Schlüssel in **allen vier** Sprachobjekten
+   (`de`, `en`, `tr`, `ar`) ergänzen.
+
+### Text in einer bestehenden Sprache ändern
+
+Einfach den entsprechenden String in `js/i18n.js` im jeweiligen Sprachobjekt
+anpassen — keine Änderung an `index.html` nötig.
+
+### Rechts-nach-links (Arabisch)
+
+Bei Auswahl von Arabisch setzt das Script `dir="rtl"` auf `<html>`. Die
+meiste Spiegelung (Kopfzeile, Grids, Textausrichtung) übernehmen moderne
+Browser automatisch, da Flexbox und CSS Grid richtungsbewusst sind. Manuelle
+Korrekturen gibt es nur dort, wo harte `left`/`right`-Werte oder
+Richtungs-Icons (Pfeile) nötig waren — siehe Abschnitt „RTL (Arabisch)" ganz
+unten in `css/styles.css`.
+
+Für arabischen Text greift automatisch die System-Schriftart des Betriebssystems,
+da die selbst gehosteten Fonts (Inter, Space Grotesk) kein arabisches
+Alphabet enthalten. Das ist normales, erwartetes Verhalten und keine
+fehlende Konfiguration.
 
 ## Konfiguration
 
@@ -84,13 +140,20 @@ HTML-Umbau nötig). Für Web-Performance zusätzlich als WebP exportieren.
 
 Selbst gehostete Variable Fonts (kein Google-Fonts-CDN, DSGVO-konform):
 
-- `fonts/inter-variable-latin.woff2` — Inter (Body-Text), SIL Open Font License
-- `fonts/space-grotesk-variable-latin.woff2` — Space Grotesk (Headlines), SIL Open Font License
+- `fonts/inter-variable-latin.woff2` / `-latin-ext.woff2` — Inter (Body-Text), SIL Open Font License
+- `fonts/space-grotesk-variable-latin.woff2` / `-latin-ext.woff2` — Space Grotesk (Headlines), SIL Open Font License
 
-Beide sind Variable Fonts über den vollen Latin-Zeichensatz (inkl. deutscher
-Umlaute/ß). Verschiedene Schriftschnitte werden in `css/styles.css` über
-mehrere `@font-face`-Deklarationen mit fixem `font-weight` aus derselben
-Datei ausgewählt — moderne Browser unterstützen das nativ.
+Je Schrift gibt es zwei `@font-face`-Dateien mit unterschiedlichem
+`unicode-range`: „Latin" deckt Deutsch/Englisch ab, „Latin-Ext" ergänzt
+zusätzliche Zeichen u. a. für Türkisch (ş, ğ, İ). Der Browser lädt und nutzt
+automatisch die passende Datei pro Zeichen — keine weitere Konfiguration
+nötig. Beide sind Variable Fonts; verschiedene Schriftschnitte werden in
+`css/styles.css` über mehrere `@font-face`-Deklarationen mit fixem
+`font-weight` aus derselben Datei ausgewählt.
+
+Arabischer Text nutzt bewusst die System-Schriftart (siehe Abschnitt
+„Mehrsprachigkeit" oben) — Inter/Space Grotesk enthalten kein arabisches
+Alphabet.
 
 ## Smooth Scroll (Lenis)
 

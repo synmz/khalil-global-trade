@@ -26,6 +26,7 @@
   window.KHALIL_CONFIG = CONFIG;
 
   document.addEventListener('DOMContentLoaded', function () {
+    initI18n();
     initSmoothScroll();
     initHeaderScroll();
     initMobileNav();
@@ -36,6 +37,130 @@
     initYear();
     fillConfigTargets();
   });
+
+  /* ------------------------------------------------------------------ */
+  /* Internationalisierung (DE / EN / TR / AR)                           */
+  /* ------------------------------------------------------------------ */
+
+  var LANG_STORAGE_KEY = 'khalil_lang';
+
+  function getPath(obj, path) {
+    var parts = path.split('.');
+    var current = obj;
+    for (var i = 0; i < parts.length; i++) {
+      if (current == null) return undefined;
+      current = current[parts[i]];
+    }
+    return current;
+  }
+
+  function getStoredLanguage() {
+    var langs = window.KHALIL_LANGUAGES || ['de'];
+    try {
+      var stored = window.localStorage.getItem(LANG_STORAGE_KEY);
+      if (stored && langs.indexOf(stored) !== -1) return stored;
+    } catch (e) { /* localStorage unavailable (privacy mode etc.) */ }
+    return 'de';
+  }
+
+  function applyLanguage(lang) {
+    var dict = window.KHALIL_TRANSLATIONS && window.KHALIL_TRANSLATIONS[lang];
+    if (!dict) return;
+
+    var isRtl = (window.KHALIL_RTL_LANGUAGES || []).indexOf(lang) !== -1;
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', isRtl ? 'rtl' : 'ltr');
+    document.body.classList.toggle('is-rtl', isRtl);
+
+    if (dict.meta) {
+      if (dict.meta.title) document.title = dict.meta.title;
+      if (dict.meta.description) {
+        var metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', dict.meta.description);
+      }
+    }
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var value = getPath(dict, el.getAttribute('data-i18n'));
+      if (typeof value === 'string') el.textContent = value;
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+      var value = getPath(dict, el.getAttribute('data-i18n-placeholder'));
+      if (typeof value === 'string') el.setAttribute('placeholder', value);
+    });
+
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+      var value = getPath(dict, el.getAttribute('data-i18n-alt'));
+      if (typeof value === 'string') el.setAttribute('alt', value);
+    });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      var value = getPath(dict, el.getAttribute('data-i18n-aria'));
+      if (typeof value === 'string') el.setAttribute('aria-label', value);
+    });
+
+    document.querySelectorAll('[data-lang-current-label]').forEach(function (el) {
+      el.textContent = lang.toUpperCase();
+    });
+
+    document.querySelectorAll('[data-lang]').forEach(function (btn) {
+      btn.classList.toggle('is-active', btn.getAttribute('data-lang') === lang);
+    });
+
+    try {
+      window.localStorage.setItem(LANG_STORAGE_KEY, lang);
+    } catch (e) { /* ignore */ }
+  }
+
+  function initI18n() {
+    if (!window.KHALIL_TRANSLATIONS) return;
+
+    applyLanguage(getStoredLanguage());
+
+    document.querySelectorAll('[data-lang]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var lang = btn.getAttribute('data-lang');
+        applyLanguage(lang);
+        document.querySelectorAll('[data-lang-toggle]').forEach(function (toggle) {
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+        document.querySelectorAll('[data-lang-switch]').forEach(function (el) {
+          el.classList.remove('is-open');
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-lang-toggle]').forEach(function (toggle) {
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var switchEl = toggle.closest('[data-lang-switch]');
+        if (!switchEl) return;
+        var isOpen = switchEl.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      document.querySelectorAll('[data-lang-switch].is-open').forEach(function (switchEl) {
+        if (!switchEl.contains(e.target)) {
+          switchEl.classList.remove('is-open');
+          var toggle = switchEl.querySelector('[data-lang-toggle]');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[data-lang-switch].is-open').forEach(function (switchEl) {
+          switchEl.classList.remove('is-open');
+          var toggle = switchEl.querySelector('[data-lang-toggle]');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+  }
 
   /* ------------------------------------------------------------------ */
   /* Smooth Scroll (Lenis, self-hosted, no CDN)                          */

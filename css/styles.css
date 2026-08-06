@@ -8,6 +8,16 @@
   font-weight: 380 780;
   font-display: swap;
   src: url('../fonts/inter-variable-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 380 780;
+  font-display: swap;
+  src: url('../fonts/inter-variable-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -16,6 +26,16 @@
   font-weight: 450 750;
   font-display: swap;
   src: url('../fonts/space-grotesk-variable-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 450 750;
+  font-display: swap;
+  src: url('../fonts/space-grotesk-variable-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 :root {
@@ -484,6 +504,123 @@ section {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+}
+
+/* ---- Language switcher (desktop dropdown) ---- */
+
+.lang-switch {
+  position: relative;
+}
+
+.lang-current {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--c-line-on-dark-strong);
+  border-radius: var(--radius-sm);
+  color: var(--c-muted-on-dark);
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+
+.lang-current svg {
+  width: 16px;
+  height: 16px;
+}
+
+.lang-current:hover,
+.lang-switch.is-open .lang-current {
+  color: var(--c-ink-on-dark);
+  border-color: var(--c-accent-light);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  z-index: 110;
+  min-width: 9rem;
+  background: var(--c-navy-900);
+  border: 1px solid var(--c-line-on-dark-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lift);
+  padding: 0.4rem;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+}
+
+.lang-switch.is-open .lang-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.lang-menu li {
+  display: block;
+}
+
+.lang-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  color: var(--c-muted-on-dark);
+  transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+}
+
+.lang-menu button:hover {
+  background: rgba(243, 241, 234, 0.06);
+  color: var(--c-ink-on-dark);
+}
+
+.lang-menu button.is-active {
+  color: var(--c-accent-light);
+}
+
+/* ---- Language switcher (mobile row) ---- */
+
+.lang-switch--mobile {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: var(--space-lg);
+}
+
+.lang-switch--mobile button {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--c-line-on-dark-strong);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--c-muted-on-dark);
+  transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+
+.lang-switch--mobile button.is-active {
+  color: var(--c-accent-ink);
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
+
+@media (min-width: 901px) {
+  .lang-switch--mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .lang-switch:not(.lang-switch--mobile) {
+    display: none;
+  }
 }
 
 .nav-toggle {
@@ -1603,3 +1740,44 @@ section {
     align-items: flex-start;
   }
 }
+
+/* ==========================================================================
+   RTL (Arabisch)
+   Die meiste Spiegelung übernimmt der Browser automatisch über [dir="rtl"]
+   (Flexbox/Grid sind direction-aware). Hier nur die physischen
+   left/right-Werte und Richtungs-Icons, die das nicht automatisch tun.
+   ========================================================================== */
+
+[dir="rtl"] .btn svg {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .btn:hover svg {
+  transform: scaleX(-1) translateX(3px);
+}
+
+[dir="rtl"] .scroll-indicator {
+  right: auto;
+  left: var(--container-pad);
+}
+
+[dir="rtl"] .nav-links a::after {
+  left: 100%;
+  right: auto;
+  transition: left var(--dur-base) var(--ease-out-expo);
+}
+
+[dir="rtl"] .nav-links a:hover::after,
+[dir="rtl"] .nav-links a.is-active::after {
+  left: 0;
+}
+
+[dir="rtl"] .lang-menu {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .lang-menu button {
+  text-align: right;
+}
+
