@@ -67,6 +67,9 @@
   --c-line-on-dark-strong: rgba(243, 241, 234, 0.26);
   --c-line-on-light: rgba(14, 27, 40, 0.12);
 
+  --c-success: #6fae7f;
+  --c-danger: #d8746c;
+
   /* ---- Typography ---- */
   --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
@@ -1501,6 +1504,44 @@ section {
   color: var(--c-muted-on-dark-2);
 }
 
+.form-note a {
+  color: var(--c-muted-on-dark-2);
+  text-decoration: underline;
+}
+
+/* Honeypot field: kept in the accessibility/tab order out of the way of
+   real users, but never display:none — simple bots skip display:none
+   fields, so an off-screen field catches more of them. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-status {
+  font-size: var(--fs-micro);
+  min-height: 1.2em;
+}
+
+.form-status[data-state="sending"] {
+  color: var(--c-muted-on-dark-2);
+}
+
+.form-status[data-state="success"] {
+  color: var(--c-success);
+}
+
+.form-status[data-state="error"] {
+  color: var(--c-danger);
+}
+
+.contact-form button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .contact-info {
   display: flex;
   flex-direction: column;
@@ -1533,6 +1574,73 @@ section {
 
 .contact-card a:hover {
   color: var(--c-accent-light);
+}
+
+/* ==========================================================================
+   Rechtstexte (Impressum, Datenschutz)
+   ========================================================================== */
+
+.legal-content section + section {
+  margin-top: var(--space-xl);
+}
+
+.legal-content h2 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--c-ink-on-dark);
+  margin-bottom: var(--space-sm);
+}
+
+.legal-content p {
+  color: var(--c-muted-on-dark);
+  max-width: 42rem;
+}
+
+.legal-content p + p {
+  margin-top: 0.6rem;
+}
+
+.legal-content dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+  margin-top: var(--space-sm);
+}
+
+.legal-content dt {
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-muted-on-dark-2);
+}
+
+.legal-content dd {
+  margin: 0;
+  color: var(--c-ink-on-dark);
+}
+
+.legal-content a {
+  color: var(--c-muted-on-dark);
+  text-decoration: underline;
+}
+
+.legal-content a:hover {
+  color: var(--c-accent-light);
+}
+
+/* Markiert Angaben, die noch nachgetragen werden müssen. */
+.tbd {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--c-accent-light);
+  border: 1px solid var(--c-accent-dim);
+  border-radius: 4px;
+  padding: 0.05em 0.5em;
 }
 
 /* ==========================================================================

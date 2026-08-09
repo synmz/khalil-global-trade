@@ -6,7 +6,7 @@
 <title>Khalil Global Trade — Industriemaschinen, Laborgeräte & Chemische Rohstoffe weltweit</title>
 <meta name="description" content="Khalil Global Trade verbindet europäische Hersteller mit Kunden weltweit. Handel mit Industriemaschinen, Laborgeräten, chemischen Rohstoffen und internationale Beschaffung.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.khalil-global-trade.de/">
+<link rel="canonical" href="https://www.khalilglobaltrade.de/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -15,7 +15,7 @@
 <meta property="og:description" content="Internationaler Handel mit Industriemaschinen, Laborgeräten, chemischen Rohstoffen und Spezialchemikalien. Zuverlässige Beschaffung für die globale Industrie.">
 <meta property="og:image" content="/assets/img/hero-refinery.jpg">
 <meta property="og:locale" content="de_DE">
-<meta property="og:url" content="https://www.khalil-global-trade.de/">
+<meta property="og:url" content="https://www.khalilglobaltrade.de/">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Khalil Global Trade — Verbinden. Beschaffen. Liefern.">
@@ -30,9 +30,9 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Khalil Global Trade",
-  "url": "https://www.khalil-global-trade.de/",
+  "url": "https://www.khalilglobaltrade.de/",
   "description": "Internationales Handelsunternehmen für Industriemaschinen, Laborgeräte, chemische Rohstoffe und Spezialchemikalien.",
-  "email": "info@khalil-global-trade.de",
+  "email": "info@khalilglobaltrade.de",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Musterstraße 1",
@@ -48,7 +48,7 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Khalil Global Trade",
-  "url": "https://www.khalil-global-trade.de/",
+  "url": "https://www.khalilglobaltrade.de/",
   "inLanguage": "de-DE"
 }
 </script>
@@ -516,35 +516,49 @@
       </div>
 
       <div class="contact-grid" style="margin-top:var(--space-2xl);">
-        <form class="contact-form" id="contact-form" data-reveal>
+        <form class="contact-form" id="contact-form" action="contact.php" method="POST" autocomplete="on" data-reveal>
           <div class="field">
             <label for="cf-name" data-i18n="contact.form.nameLabel">Name</label>
-            <input id="cf-name" name="name" type="text" data-i18n-placeholder="contact.form.namePlaceholder" placeholder="Ihr vollständiger Name" required>
+            <input id="cf-name" name="name" type="text" data-i18n-placeholder="contact.form.namePlaceholder" placeholder="Ihr vollständiger Name" autocomplete="name" maxlength="100" required>
           </div>
           <div class="field">
             <label for="cf-email" data-i18n="contact.form.emailLabel">E-Mail</label>
-            <input id="cf-email" name="email" type="email" data-i18n-placeholder="contact.form.emailPlaceholder" placeholder="ihre@email.de" required>
+            <input id="cf-email" name="email" type="email" data-i18n-placeholder="contact.form.emailPlaceholder" placeholder="ihre@email.de" autocomplete="email" maxlength="190" required>
           </div>
           <div class="field">
             <label for="cf-company" data-i18n="contact.form.companyLabel">Unternehmen</label>
-            <input id="cf-company" name="company" type="text" data-i18n-placeholder="contact.form.companyPlaceholder" placeholder="Firmenname">
+            <input id="cf-company" name="company" type="text" data-i18n-placeholder="contact.form.companyPlaceholder" placeholder="Firmenname" autocomplete="organization" maxlength="150">
           </div>
           <div class="field">
             <label for="cf-message" data-i18n="contact.form.messageLabel">Nachricht</label>
-            <textarea id="cf-message" name="message" rows="5" data-i18n-placeholder="contact.form.messagePlaceholder" placeholder="Wie können wir Ihnen helfen?" required></textarea>
+            <textarea id="cf-message" name="message" rows="5" data-i18n-placeholder="contact.form.messagePlaceholder" placeholder="Wie können wir Ihnen helfen?" maxlength="5000" required></textarea>
           </div>
+
+          <!-- Honeypot: unsichtbar für Menschen, wird von den meisten Spam-Bots ausgefüllt.
+               Absichtlich kein "honeypot"/"bot"-Name, damit smarte Bots es nicht erkennen. -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="cf-website">Website</label>
+            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <input type="hidden" id="cf-csrf" name="csrf_token" value="">
+
           <button class="btn btn--primary" type="submit" style="justify-self:start;">
             <span data-i18n="contact.form.submit">Nachricht senden</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12H19M13 6L19 12L13 18"/></svg>
           </button>
-          <p class="form-note" data-i18n="contact.form.note">Hinweis: Die Formularanbindung an ein Backend ist nicht Teil dieses Durchgangs.</p>
+          <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+          <p class="form-note">
+            <span data-i18n="contact.form.noteBefore">Mit dem Absenden stimmen Sie unserer</span>
+            <a href="datenschutz.html" data-i18n="contact.form.notePrivacyLink">Datenschutzerklärung</a>
+            <span data-i18n="contact.form.noteAfter">zu.</span>
+          </p>
         </form>
 
         <div class="contact-info" data-reveal data-reveal-delay="150">
           <div class="contact-card">
             <h3 data-i18n="contact.info.heading">Kontaktdaten</h3>
             <ul>
-              <li><span data-i18n="contact.info.emailLabel">E-Mail:</span> <a data-config="email" href="#">info@khalil-global-trade.de</a></li>
+              <li><span data-i18n="contact.info.emailLabel">E-Mail:</span> <a data-config="email" href="#">info@khalilglobaltrade.de</a></li>
               <li><span data-i18n="contact.info.phoneLabel">Telefon:</span> <a data-config="phone" href="#">+49 (0) 000 000 000</a></li>
               <li data-config="address">Musterstraße 1, 00000 Musterstadt</li>
               <li data-i18n="contact.info.country">Deutschland</li>
@@ -574,6 +588,9 @@
         <div class="footer-social">
           <a href="#" data-i18n-aria="footer.linkedinLabel" aria-label="Khalil Global Trade auf LinkedIn">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="12" y="16.5" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="currentColor">in</text></svg>
+          </a>
+          <a href="#" data-i18n-aria="footer.instagramLabel" aria-label="Khalil Global Trade auf Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
           </a>
         </div>
       </div>

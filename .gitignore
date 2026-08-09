@@ -1,1 +1,4 @@
 .idea
+
+# Runtime data written by contact.php (rate-limit counters) — never commit
+storage/ratelimit/*.json

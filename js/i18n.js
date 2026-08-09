@@ -129,7 +129,14 @@
           messageLabel: 'Nachricht',
           messagePlaceholder: 'Wie können wir Ihnen helfen?',
           submit: 'Nachricht senden',
-          note: 'Hinweis: Die Formularanbindung an ein Backend ist nicht Teil dieses Durchgangs.'
+          noteBefore: 'Mit dem Absenden stimmen Sie unserer',
+          notePrivacyLink: 'Datenschutzerklärung',
+          noteAfter: 'zu.',
+          sending: 'Ihre Nachricht wird gesendet …',
+          success: 'Danke für Ihre Nachricht! Wir melden uns in Kürze bei Ihnen.',
+          errorValidation: 'Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.',
+          errorRateLimited: 'Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut.',
+          errorGeneric: 'Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut oder schreiben Sie uns direkt eine E-Mail.'
         },
         info: {
           heading: 'Kontaktdaten',
@@ -147,7 +154,8 @@
         imprint: 'Impressum',
         privacy: 'Datenschutz',
         rights: 'Alle Rechte vorbehalten.',
-        linkedinLabel: 'Khalil Global Trade auf LinkedIn'
+        linkedinLabel: 'Khalil Global Trade auf LinkedIn',
+        instagramLabel: 'Khalil Global Trade auf Instagram'
       }
     },
 
@@ -269,7 +277,14 @@
           messageLabel: 'Message',
           messagePlaceholder: 'How can we help you?',
           submit: 'Send message',
-          note: 'Note: Backend integration for this form is not part of this build.'
+          noteBefore: 'By submitting, you agree to our',
+          notePrivacyLink: 'privacy policy',
+          noteAfter: '.',
+          sending: 'Sending your message …',
+          success: 'Thank you for your message! We will get back to you shortly.',
+          errorValidation: 'Please check your entries and try again.',
+          errorRateLimited: 'Too many requests. Please try again in a few minutes.',
+          errorGeneric: 'Unfortunately something went wrong. Please try again later or email us directly.'
         },
         info: {
           heading: 'Contact details',
@@ -287,7 +302,8 @@
         imprint: 'Legal Notice',
         privacy: 'Privacy Policy',
         rights: 'All rights reserved.',
-        linkedinLabel: 'Khalil Global Trade on LinkedIn'
+        linkedinLabel: 'Khalil Global Trade on LinkedIn',
+        instagramLabel: 'Khalil Global Trade on Instagram'
       }
     },
 
@@ -409,7 +425,14 @@
           messageLabel: 'Mesaj',
           messagePlaceholder: 'Size nasıl yardımcı olabiliriz?',
           submit: 'Mesajı gönder',
-          note: 'Not: Bu formun bir arka uca bağlanması bu aşamanın kapsamında değildir.'
+          noteBefore: 'Gönder’e tıklayarak',
+          notePrivacyLink: 'Gizlilik Politikamızı',
+          noteAfter: 'kabul etmiş olursunuz.',
+          sending: 'Mesajınız gönderiliyor …',
+          success: 'Mesajınız için teşekkür ederiz! Kısa süre içinde size geri döneceğiz.',
+          errorValidation: 'Lütfen girdiğiniz bilgileri kontrol edip tekrar deneyin.',
+          errorRateLimited: 'Çok fazla istek gönderildi. Lütfen birkaç dakika sonra tekrar deneyin.',
+          errorGeneric: 'Maalesef bir hata oluştu. Lütfen daha sonra tekrar deneyin veya doğrudan bize e-posta gönderin.'
         },
         info: {
           heading: 'İletişim bilgileri',
@@ -427,7 +450,8 @@
         imprint: 'Yasal Bilgiler',
         privacy: 'Gizlilik Politikası',
         rights: 'Tüm hakları saklıdır.',
-        linkedinLabel: "Khalil Global Trade'in LinkedIn sayfası"
+        linkedinLabel: "Khalil Global Trade'in LinkedIn sayfası",
+        instagramLabel: "Khalil Global Trade'in Instagram sayfası"
       }
     },
 
@@ -549,7 +573,14 @@
           messageLabel: 'الرسالة',
           messagePlaceholder: 'كيف يمكننا مساعدتكم؟',
           submit: 'إرسال الرسالة',
-          note: 'ملاحظة: ربط هذا النموذج بنظام خلفي ليس جزءًا من هذه المرحلة.'
+          noteBefore: 'بإرسال هذا النموذج، أنتم توافقون على',
+          notePrivacyLink: 'سياسة الخصوصية',
+          noteAfter: 'الخاصة بنا.',
+          sending: 'جارٍ إرسال رسالتكم …',
+          success: 'شكرًا لرسالتكم! سنتواصل معكم قريبًا.',
+          errorValidation: 'يرجى التحقق من البيانات المدخلة والمحاولة مرة أخرى.',
+          errorRateLimited: 'عدد كبير جدًا من الطلبات. يرجى المحاولة مرة أخرى بعد بضع دقائق.',
+          errorGeneric: 'للأسف حدث خطأ. يرجى المحاولة لاحقًا أو مراسلتنا مباشرة عبر البريد الإلكتروني.'
         },
         info: {
           heading: 'بيانات التواصل',
@@ -567,7 +598,8 @@
         imprint: 'بيانات الناشر',
         privacy: 'سياسة الخصوصية',
         rights: 'جميع الحقوق محفوظة.',
-        linkedinLabel: 'خليل جلوبال تريد على LinkedIn'
+        linkedinLabel: 'خليل جلوبال تريد على LinkedIn',
+        instagramLabel: 'خليل جلوبال تريد على Instagram'
       }
     }
   };

@@ -164,16 +164,43 @@ nicht initialisiert.
 
 ## Kontaktformular
 
-Das Formular in `#kontakt` sendet aktuell **nicht wirklich** — es zeigt nur
-eine Erfolgsmeldung im Frontend (`js/script.js`, Submit-Handler unten in der
-Datei). Eine Backend-Anbindung (z. B. ein `contact.php`-Pendant) ist
-ausdrücklich nicht Teil dieses Durchgangs.
+Das Formular in `#kontakt` sendet per `fetch()` (`js/script.js`,
+`initContactForm`) an `contact.php`. Das PHP-Backend validiert und
+versendet serverseitig eine E-Mail an `info@khalilglobaltrade.de` und ist
+mehrfach abgesichert:
+
+- CSRF-Schutz per Session-Token (wird vor dem Absenden per `GET
+  contact.php?csrf=1` geholt)
+- Herkunftsprüfung (Origin/Referer-Allowlist) als zusätzliche Absicherung
+- Honeypot-Feld (`name="website"`) gegen einfache Spam-Bots
+- Dateibasiertes Rate-Limiting pro IP (`storage/ratelimit/`, per
+  `.htaccess` vor Web-Zugriff geschützt)
+- Strikte Server-seitige Eingabevalidierung & Schutz vor
+  E-Mail-Header-Injection
+
+**Voraussetzung:** Ein PHP-fähiger Webserver (PHP 7.4+) mit funktionsfähigem
+`mail()` (bzw. konfiguriertem Sendmail/SMTP-Relay). Beim rein lokalen Öffnen
+von `index.html` im Browser (ohne PHP-Server) läuft das Formular ins Leere,
+da `contact.php` dann nicht ausgeführt wird — zum Testen einen PHP-Server
+nutzen (`php -S localhost:8000`) statt `python3 -m http.server`.
 
 ## Rechtliches
 
-`impressum.html` und `datenschutz.html` sind bewusst leere Platzhalter mit
-Seiten-Chrome (Header/Footer) — Inhalte gemäß TMG/DSGVO müssen in einem
-separaten Schritt juristisch geprüft ergänzt werden.
+`impressum.html` enthält eine vollständige Vorlage gemäß § 5 DDG (vormals
+§ 5 TMG). Noch offene, unternehmensspezifische Angaben (Rechtsform,
+Vertretungsberechtigung, Anschrift, Telefon, Handelsregister, USt-IdNr.,
+verantwortliche Person nach § 18 Abs. 2 MStV) sind mit `<span class="tbd">`
+markiert und müssen vor dem Live-Gang ergänzt werden. Die Vorlage ersetzt
+keine anwaltliche Prüfung.
+
+`datenschutz.html` enthält eine vollständige Vorlage gemäß DSGVO, die
+ausschließlich die tatsächlich im Code stattfindenden Verarbeitungen
+beschreibt (Server-Logfiles, Kontaktformular inkl. Session-Cookie & IP-
+Rate-Limiting, `localStorage` für die Sprachwahl — keine Google Fonts,
+kein Tracking, keine Analyse-Tools). Offene, unternehmensspezifische
+Angaben (Anschrift, Hosting-/E-Mail-Provider, Speicherfristen, zuständige
+Aufsichtsbehörde) sind mit `<span class="tbd">` markiert. Beide
+Rechtsseiten ersetzen keine anwaltliche Prüfung.
 
 ## Lokal testen
 

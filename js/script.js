@@ -8,7 +8,7 @@
 
   var CONFIG = {
     companyName: 'Khalil Global Trade',
-    email: 'info@khalil-global-trade.de',
+    email: 'info@khalilglobaltrade.de',
     phone: '+49 (0) 000 000 000',
     address: {
       street: 'Musterstraße 1',
@@ -36,6 +36,7 @@
     initHeroWordDelays();
     initYear();
     fillConfigTargets();
+    initContactForm();
   });
 
   /* ------------------------------------------------------------------ */
@@ -409,17 +410,91 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Contact form: placeholder submit (no backend in this pass)          */
+  /* Contact form: submits to contact.php via fetch (JSON API)           */
   /* ------------------------------------------------------------------ */
 
-  document.addEventListener('submit', function (e) {
-    var form = e.target.closest('#contact-form');
-    if (!form) return;
-    e.preventDefault();
-    var note = form.querySelector('.form-note');
-    if (note) {
-      note.textContent = 'Danke für Ihre Nachricht. Die Formularanbindung folgt in einem separaten Schritt.';
+  var CONTACT_ENDPOINT = 'contact.php';
+
+  function contactT(key, fallback) {
+    var lang = getStoredLanguage();
+    var dict = window.KHALIL_TRANSLATIONS && window.KHALIL_TRANSLATIONS[lang];
+    var value = dict && getPath(dict, key);
+    return typeof value === 'string' ? value : fallback;
+  }
+
+  function setFormStatus(el, state, text) {
+    if (!el) return;
+    el.textContent = text || '';
+    if (state) {
+      el.setAttribute('data-state', state);
+    } else {
+      el.removeAttribute('data-state');
     }
-    form.reset();
-  });
+  }
+
+  function refreshCsrfToken(form) {
+    var field = form.querySelector('#cf-csrf');
+    if (!field) return;
+    fetch(CONTACT_ENDPOINT + '?csrf=1', {
+      method: 'GET',
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (data) {
+        if (data && data.csrf_token) field.value = data.csrf_token;
+      })
+      .catch(function () { /* silently ignore — server validates anyway */ });
+  }
+
+  function initContactForm() {
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+
+    refreshCsrfToken(form);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var status = form.querySelector('#cf-status');
+      var button = form.querySelector('button[type="submit"]');
+      if (button) button.disabled = true;
+      setFormStatus(status, 'sending', contactT('contact.form.sending', 'Wird gesendet …'));
+
+      fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            return { ok: res.ok, status: res.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (result.ok && result.data && result.data.success) {
+            setFormStatus(status, 'success', contactT('contact.form.success', 'Danke für Ihre Nachricht!'));
+            form.reset();
+          } else if (result.status === 429) {
+            setFormStatus(status, 'error', contactT('contact.form.errorRateLimited', 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.'));
+          } else if (result.status === 422) {
+            setFormStatus(status, 'error', contactT('contact.form.errorValidation', 'Bitte überprüfen Sie Ihre Eingaben.'));
+          } else {
+            setFormStatus(status, 'error', contactT('contact.form.errorGeneric', 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'));
+          }
+          if (result.data && result.data.csrf_token) {
+            var field = form.querySelector('#cf-csrf');
+            if (field) field.value = result.data.csrf_token;
+          }
+        })
+        .catch(function () {
+          setFormStatus(status, 'error', contactT('contact.form.errorGeneric', 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'));
+        })
+        .finally(function () {
+          if (button) button.disabled = false;
+        });
+    });
+  }
+
 })();
