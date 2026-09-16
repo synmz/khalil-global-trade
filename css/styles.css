@@ -1499,6 +1499,11 @@ section {
   color: var(--c-muted-on-dark-2);
 }
 
+.field-hint {
+  font-size: var(--fs-micro);
+  color: var(--c-muted-on-dark-2);
+}
+
 .form-note {
   font-size: var(--fs-micro);
   color: var(--c-muted-on-dark-2);

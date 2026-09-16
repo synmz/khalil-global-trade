@@ -531,7 +531,8 @@
           </div>
           <div class="field">
             <label for="cf-message" data-i18n="contact.form.messageLabel">Nachricht</label>
-            <textarea id="cf-message" name="message" rows="5" data-i18n-placeholder="contact.form.messagePlaceholder" placeholder="Wie können wir Ihnen helfen?" maxlength="5000" required></textarea>
+            <textarea id="cf-message" name="message" rows="5" data-i18n-placeholder="contact.form.messagePlaceholder" placeholder="Wie können wir Ihnen helfen?" minlength="10" maxlength="5000" aria-describedby="cf-message-hint" required></textarea>
+            <span class="field-hint" id="cf-message-hint" data-i18n="contact.form.messageHint">Mindestens 10 Zeichen.</span>
           </div>
 
           <!-- Honeypot: unsichtbar für Menschen, wird von den meisten Spam-Bots ausgefüllt.
