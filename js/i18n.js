@@ -142,7 +142,6 @@
         info: {
           heading: 'Kontaktdaten',
           emailLabel: 'E-Mail:',
-          phoneLabel: 'Telefon:',
           country: 'Deutschland'
         }
       },
@@ -291,7 +290,6 @@
         info: {
           heading: 'Contact details',
           emailLabel: 'Email:',
-          phoneLabel: 'Phone:',
           country: 'Germany'
         }
       },
@@ -440,7 +438,6 @@
         info: {
           heading: 'İletişim bilgileri',
           emailLabel: 'E-posta:',
-          phoneLabel: 'Telefon:',
           country: 'Almanya'
         }
       },
@@ -589,7 +586,6 @@
         info: {
           heading: 'بيانات التواصل',
           emailLabel: 'البريد الإلكتروني:',
-          phoneLabel: 'الهاتف:',
           country: 'ألمانيا'
         }
       },

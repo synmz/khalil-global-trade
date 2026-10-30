@@ -9,7 +9,6 @@
   var CONFIG = {
     companyName: 'Khalil Global Trade',
     email: 'info@khalilglobaltrade.de',
-    phone: '+49 (0) 000 000 000',
     address: {
       street: 'Königstraße 5',
       zip: '70173',
@@ -399,10 +398,6 @@
     document.querySelectorAll('[data-config="email"]').forEach(function (el) {
       el.textContent = CONFIG.email;
       if (el.tagName === 'A') el.href = 'mailto:' + CONFIG.email;
-    });
-    document.querySelectorAll('[data-config="phone"]').forEach(function (el) {
-      el.textContent = CONFIG.phone;
-      if (el.tagName === 'A') el.href = 'tel:' + CONFIG.phone.replace(/[^+\d]/g, '');
     });
     document.querySelectorAll('[data-config="address"]').forEach(function (el) {
       el.textContent = CONFIG.address.street + ', ' + CONFIG.address.zip + ' ' + CONFIG.address.city;
