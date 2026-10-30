@@ -11,9 +11,9 @@
     email: 'info@khalilglobaltrade.de',
     phone: '+49 (0) 000 000 000',
     address: {
-      street: 'Musterstraße 1',
-      zip: '00000',
-      city: 'Musterstadt',
+      street: 'Königstraße 5',
+      zip: '70173',
+      city: 'Stuttgart',
       country: 'Deutschland'
     },
     social: {
